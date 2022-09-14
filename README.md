@@ -1,71 +1,24 @@
-# Getting Started with Create React App
+# Loan Payment Plan Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bu projede çekilecek kredi tutarını ( dosya masrafı dahil edilmeden ) istenilen faiz oranı ve taksit sayısını, o yılın vergi oranları bsmv ve kkdf oranları girilerek odeme dönemlerini haftalık, aylık veya yıllık olarak ayarlayarak ödeme planını hesaplamaktadır. Taksit hesaplamaları taksitlerin bugünkü değeri üzerinden hesaplanmaktadır. Eşit taksitlerin bugünkü değeri üzerinden hesaplanması gelecekteki değeri üzerinden hesaplanmasıyla aynı sonuçları vermektedir. Fakat gelecek döneme göre hesaplanması bu proje için önce gelecek döneme çevirip daha sonrasında günümüze dönüştürmek gereksiz iş yükü oluşturacağı için tercih edilmemiştir. 
 
-## Available Scripts
+Form yönetimini Formik kütüphanesiyle hallederken, validation yöntemi için Yup Kütüphanesini tercih edilmiştir.
 
-In the project directory, you can run:
+Bu projede 2 adet context yapısı bulunmaktadır. Data Context form verilerimizi topluca alarak verileri ayrıştırıp kaydediyor daha sonrasında Calculation Context'e bu verileri aktarıp orada da bu veriler gerekli işlemler yapılarak ayrı ayrı her taksit döneminin verileri toplanıp bir bütün olarak saklamaktadır. Oluşturulan taksit verileri bir array içinde table.js e aktarılıp map methoduyla tablomuz oluşturulmaktadır.
 
-### `npm start`
+Tabloyu oluştururken Material UI table component'i kullanılmıştır.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Tabloyu daha yakından incelemek isteyen kullanıcılar için tablo oluştuktan sonra görünürlüğü açılan "tam ekran görüntüle" button'u tıklandığında oluşturduğumuz modal sayfasını çalıştırmakdır. React Portal kullanarak parent component’e ait bir Modal componentini, bulunduğu DOM hiyerarşisinin dışında render ediyoruz. Container.js deki buttona onClick fonksiyonu Modal.js'den use ref, forward ref ve useImpretiveHandle kullanarak istediğimiz fonksiyonu çekerek kullandık.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## How to start
 
-### `npm test`
+Install all the project dependencies with:
+```
+npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+And start the development with:
+```
+npm start
+```
 

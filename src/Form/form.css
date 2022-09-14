@@ -1,0 +1,45 @@
+.main {
+    display: flex;
+    justify-content: center;
+}
+
+.formbox {
+    width: 600px;
+    height: 220px;
+    align-items: center;
+    background-color: red;
+    padding: 30px;
+    border-radius: 30px;
+}
+
+form div {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+
+}
+
+
+ input {
+    position:relative;
+    display:inline-block;
+    font-size:15px;
+    box-sizing: border-box;
+    transition: 0.5s;
+    background: #fff;
+    width: 340px;
+    height: 25px;
+    outline: none;
+    padding: 0 25px;
+    border-radius: 25px;
+    justify-content: center;
+}
+
+button {
+    width: 340px;
+    height: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+}

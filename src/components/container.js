@@ -14,7 +14,6 @@ function Container() {
         {visible && <button onClick={() => visible && modalRef.current.openModal()}>
           Tam Ekran Görüntüle
         </button>}
-        
         <BasicTable/>
         <Modal ref={modalRef}>
         <BasicTable/>

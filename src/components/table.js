@@ -14,7 +14,7 @@ import { useContext } from 'react';
 
 const BasicTable = () => {
   const {visible} =useContext(DataContext)
-  const {sonuc} = useContext(CalculationContext)
+  const {installment} = useContext(CalculationContext)
   return (
     <>
     {visible === true &&
@@ -34,7 +34,7 @@ const BasicTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sonuc?.map((el,i) => (
+          {installment?.map((el,i) => (
             <TableRow
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

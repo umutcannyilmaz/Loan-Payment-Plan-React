@@ -6,67 +6,71 @@ const CalculationContext = createContext();
 export const CalculationProvider = ({ children }) => {
 
 
-  const { taksitSayısı, karOranı, bsmv, kkdv, krediTutarı } = useContext(DataContext)
+  const { loanTerm,interestRate,bsmv,kkdv,loanAmount } = useContext(DataContext)
 
 
   function installmentArray() {
-    const aylık = []
+    const installment = []
+    let remainingTotalPrincipal = loanAmount
+    let interestAmount;
+    let kkdfAmount;
+    let bsmvAmount;
+    let monthlyPrincipal;
 
-    let kalantoplamanapara = krediTutarı
-    let ilkfaiz;
-    let kkdftutarı;
-    let bsmvtutarı;
-    let aylıködenenanapara;
-    const taksitTutarı = Number(((kalantoplamanapara / ((1 - (1 / (Math.pow((1 + (karOranı / 100 + (kkdv / 100 + bsmv / 100) * karOranı / 100)), (taksitSayısı))))) / (karOranı / 100 + (kkdv / 100 + bsmv / 100) * karOranı / 100)))).toFixed(2))
+    /* 
+    Eşit Taksit Tutarlı Kredi Ödemelerinin Günümüz değeri üzerinden taksit tutarı hesaplanmıştır.
+    Eğer belli bir dönemde faiz oranı değişseydi gelecek dönem formülü kullanılacaktır.
+    */
+    const repaymentAmount = Number(((remainingTotalPrincipal / ((1 - (1 / (Math.pow((1 + (interestRate / 100 + (kkdv / 100 + bsmv / 100) * interestRate / 100)), (loanTerm))))) / (interestRate / 100 + (kkdv / 100 + bsmv / 100) * interestRate / 100)))).toFixed(2))
 
 
-    if (isNaN(krediTutarı)) {
+    if (isNaN(loanAmount)) {
       return 
     } else {
-      function ilkaylık() {
+      
+      function firstInstallment() {
+// loanAmount Nan değilse sontaksit hariç kalan tüm taksitleri firstInstallment fonksiyonu hesaplıyor.
+        for (var i = 0; i < loanTerm - 1; i++) {
 
-        for (var i = 0; i < taksitSayısı - 1; i++) {
+          interestAmount = Number((remainingTotalPrincipal * (interestRate / 100)).toFixed(2))
+          kkdfAmount = Number((interestAmount * kkdv / 100).toFixed(2))
+          bsmvAmount = Number((interestAmount * bsmv / 100).toFixed(2))
+          monthlyPrincipal = Number((repaymentAmount - interestAmount - kkdfAmount - bsmvAmount).toFixed(2))
+          remainingTotalPrincipal = Number((remainingTotalPrincipal - monthlyPrincipal).toFixed(2))
 
-          ilkfaiz = Number((kalantoplamanapara * (karOranı / 100)).toFixed(2))
-          kkdftutarı = Number((ilkfaiz * kkdv / 100).toFixed(2))
-          bsmvtutarı = Number((ilkfaiz * bsmv / 100).toFixed(2))
-          aylıködenenanapara = Number((taksitTutarı - ilkfaiz - kkdftutarı - bsmvtutarı).toFixed(2))
-          kalantoplamanapara = Number((kalantoplamanapara - aylıködenenanapara).toFixed(2))
-
-          aylık.push([taksitTutarı, aylıködenenanapara, ilkfaiz, kkdftutarı, bsmvtutarı, kalantoplamanapara])
+          installment.push([repaymentAmount, monthlyPrincipal, interestAmount, kkdfAmount, bsmvAmount, remainingTotalPrincipal])
         }
 
-        sonaylık()
+        
+        lastInstallment()
         
 
-        if (isNaN(ilkfaiz)) {
+        if (isNaN(interestAmount)) {
           return
         } else {
-          return aylık
+          return installment
         }
 
       }
 
 
-      function sonaylık() {
+      function lastInstallment() {
+        //sadece son taksiti hesaplayan fonksiyon
+        const interestAmount = Number(((repaymentAmount - remainingTotalPrincipal) / (1 + kkdv / 100 + bsmv / 100)).toFixed(2))
+        kkdfAmount = Number((interestAmount * kkdv / 100).toFixed(2))
+        bsmvAmount = Number((interestAmount * bsmv / 100).toFixed(2))
+        monthlyPrincipal = Number((repaymentAmount - interestAmount - kkdfAmount - bsmvAmount).toFixed(2))
 
-        const sonfaiz = Number(((taksitTutarı - kalantoplamanapara) / (1 + kkdv / 100 + bsmv / 100)).toFixed(2))
-        kkdftutarı = Number((sonfaiz * kkdv / 100).toFixed(2))
-        bsmvtutarı = Number((sonfaiz * bsmv / 100).toFixed(2))
-        aylıködenenanapara = Number((taksitTutarı - ilkfaiz - kkdftutarı - bsmvtutarı).toFixed(2))
-
-        aylık.push([taksitTutarı, kalantoplamanapara, sonfaiz, kkdftutarı, bsmvtutarı, 0])
+        installment.push([repaymentAmount, remainingTotalPrincipal, interestAmount, kkdfAmount, bsmvAmount, 0])
       }
-      return ilkaylık()
+      return firstInstallment()
     }
-
-
 
   } // hesap fonksiyonu bitimi
 
-  const sonuc = installmentArray()
+  const installment = installmentArray()
   const values = {
-    sonuc
+    installment
   }
 
 

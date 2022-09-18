@@ -1,11 +1,9 @@
 import React, {forwardRef, useContext, useImperativeHandle,useState} from "react";
 import ReactDOM from "react-dom";
-import DataContext from "../../context/DataContext";
 import "./modal.css"
 
 const Modal = forwardRef((props,ref) => {
   const [display, setDisplay] = useState(false);
-
   useImperativeHandle(ref, () => {
     return {
       openModal: () => open(),
@@ -26,7 +24,7 @@ const Modal = forwardRef((props,ref) => {
       <div className={"modal-wrapper"}>
         <div onClick={close} className={"modal-backdrop"} />
         <div className={"modal-box"}>
-          {props.children}
+        {props.children}
         </div>
       </div>, document.getElementById("modal-root"))
   }

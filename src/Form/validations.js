@@ -1,11 +1,11 @@
 import { object, string, number, date, InferType } from 'yup';
 const validations = object({
-  loanAmount: number().required(),
-  loanTerm: number().required(),
-  interestRate: number().required(),
+  loanAmount: number().positive().required(),
+  loanTerm: number().positive().required(),
+  interestRate: number().positive().required(),
   payBack: string().required(),
-  bsmv: number().required(),
-  kkdv: number().required(),
+  bsmv: number().positive().required(),
+  kkdv: number().positive().required(),
 
 
 });
